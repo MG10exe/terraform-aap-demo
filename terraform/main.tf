@@ -1,5 +1,9 @@
 terraform {
   required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "5.32.1"
+    }
 
     google = {
       source = "hashicorp/google"
@@ -10,8 +14,16 @@ terraform {
   backend "s3" {}
 }
 
-provider "google" {
-  region = "us-central-1"
+provider "aws" {
+  region = "us-east-1"
+}
+
+resource "aws_instance" "tf-demo-aws-ec2-instance-1" {
+  ami           = "ami-0005e0cfe09cc9050"
+  instance_type = "t2.micro"
+  tags = {
+    Name = "tf-demo-aws-ec2-instance-1"
+  }
 }
 
 variable "gcp_credentials_path" { type= string }
